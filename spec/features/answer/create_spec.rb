@@ -19,7 +19,7 @@ feature 'User can create answer', %q{
     scenario 'tries to give answer' do
       fill_in 'Answer', with: 'new answer body'
       click_on 'To answer'
-
+      
       expect(page).to have_content question.title
       expect(page).to have_content question.body
       expect(page).to have_content 'new answer body'
