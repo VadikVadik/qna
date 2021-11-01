@@ -1,4 +1,5 @@
 class AnswersController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_question
 
   def new
@@ -11,7 +12,7 @@ class AnswersController < ApplicationController
     if @answer.save
       redirect_to @question
     else
-      render :new
+      redirect_to @question, alert: "Body can't be blank"
     end
   end
 

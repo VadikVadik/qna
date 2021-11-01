@@ -17,7 +17,7 @@ feature 'User can create question', %q{
     end
 
     scenario 'asks a question' do
-      fill_in 'Title', with: 'Test question'
+      fill_in 'New question', with: 'Test question'
       fill_in 'Body', with: 'text text text'
       click_on 'Ask'
 
