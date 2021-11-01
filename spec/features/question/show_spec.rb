@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 feature 'User can view the question and the answers to it' do
-  given!(:question) { create(:question) }
-  given!(:answers) { create_list(:answer, 3, question: question) }
+  given!(:user) { create(:user) }
+  given!(:question) { create(:question, author: user) }
+  given!(:answers) { create_list(:answer, 3, question: question, author:user) }
 
   scenario 'User view the question and the answers to it' do
     visit question_path(question)

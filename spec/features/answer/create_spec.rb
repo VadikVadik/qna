@@ -6,11 +6,10 @@ feature 'User can create answer', %q{
   I'd like to be able to answer questions
   Being on the question page
 } do
-  given(:question) { create(:question) }
+  given(:user) { create(:user) }
+  given(:question) { create(:question, author: user) }
 
   describe 'Authenticated user' do
-    given(:user) { create(:user) }
-
     background do
       sign_in(user)
       visit question_path(question)
@@ -19,7 +18,7 @@ feature 'User can create answer', %q{
     scenario 'tries to give answer' do
       fill_in 'Answer', with: 'new answer body'
       click_on 'To answer'
-      
+
       expect(page).to have_content question.title
       expect(page).to have_content question.body
       expect(page).to have_content 'new answer body'

@@ -3,11 +3,13 @@ class AnswersController < ApplicationController
   before_action :set_question
 
   def new
-    @answer = @question.answers.new
+    @answer = @question.answers.new(author_id: current_user.id)
   end
 
   def create
-    @answer = @question.answers.new(answer_params)
+    params = answer_params
+    params[:author_id] = current_user.id
+    @answer = @question.answers.new(params)
 
     if @answer.save
       redirect_to @question
