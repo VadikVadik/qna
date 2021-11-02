@@ -1,0 +1,6 @@
+ol
+  -resource.answers.each do |answer|
+    li
+      p= answer.body
+      -if current_user&.is_author?(answer) && !answer.new_record?
+        =link_to 'Delete answer', answer_path(answer), method: :delete

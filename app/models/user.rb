@@ -7,6 +7,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   def is_author?(resource)
-    created_questions.include?(resource) || created_answers.include?(resource)
+    resource.author_id == self.id
   end
 end

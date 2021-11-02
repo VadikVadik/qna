@@ -37,6 +37,8 @@ class QuestionsController < ApplicationController
     if current_user.is_author?(@question)
       @question.destroy
       redirect_to questions_path, notice: 'Question was successfully deleted'
+    else
+      render :show, notice: "You can't delete this question"
     end
   end
 

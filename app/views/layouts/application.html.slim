@@ -6,10 +6,13 @@ html
     meta[name="viewport" content="width=device-width,initial-scale=1"]
     = csrf_meta_tags
     = csp_meta_tag
-    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   body
-    = link_to 'Log out', destroy_user_session_path, method: :delete
+    -if user_signed_in?
+      = link_to 'Log out', destroy_user_session_path, method: :delete
+    -else
+      = link_to 'Sign in', new_user_session_path
     p.notice
       = notice
     p.alert

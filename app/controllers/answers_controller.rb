@@ -3,19 +3,13 @@ class AnswersController < ApplicationController
   before_action :set_question, except: :destroy
   before_action :set_answer, only: :destroy
 
-  def new
-    @answer = @question.answers.new(author_id: current_user.id)
-  end
-
   def create
-    params = answer_params
-    params[:author_id] = current_user.id
-    @answer = @question.answers.new(params)
+    @answer = @question.answers.new(answer_params.merge(author: current_user))
 
     if @answer.save
       redirect_to @question
     else
-      redirect_to @question, alert: "Body can't be blank"
+      render 'questions/show'
     end
   end
 
@@ -25,6 +19,8 @@ class AnswersController < ApplicationController
     if current_user.is_author?(@answer)
       @answer.destroy
       redirect_to question_path(@question), notice: "Answer was successfully deleted"
+    else
+      redirect_to question_path(@question), alert: "You can't delete this answer"
     end
   end
 
