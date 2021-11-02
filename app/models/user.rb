@@ -6,7 +6,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  def is_author?(object)
-    created_questions.include?(object) || created_answers.include?(object)
+  def is_author?(resource)
+    created_questions.include?(resource) || created_answers.include?(resource)
   end
 end
