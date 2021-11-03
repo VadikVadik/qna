@@ -1,0 +1,36 @@
+.header {
+  background-color: #DED9C4;
+}
+
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+}
+
+.logo {
+  display: block;
+  padding: 20px;
+  font-size: 50px;
+  line-height: 42px;
+  font-weight: bold;
+  text-shadow: 3px 3px 3px rgba(150, 150, 150, 1);
+}
+
+.navigation-list {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+.navigation-list-item:not(:last-child) {
+  margin-right: 15px;
+}
+
+.navigation-link {
+  display: block;
+  min-width: 80px;
+  padding: 10px;
+}
