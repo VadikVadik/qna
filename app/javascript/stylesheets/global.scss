@@ -7,13 +7,40 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100%;
+  font-family: "Arial", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 30px;
+  background-color: #FEF5ED;
+  color: #191A19;
 }
 
-.main-container {
-  flex-grow: 1;
+a {
+  text-decoration: none;
+  color: #435560;
+}
+
+button, input[type="submit"] {
+  margin: 0;
+  background-color: none;
+  border: none;
+  font-size: inherit;
 }
 
 .page-container {
   width: 1100px;
   margin: 0 auto;
+}
+
+.btn {
+  text-align: center;
+  color: #435560;
+  background-color: #96C7C1;
+  border-radius: 10px;
+  box-shadow: 0px 2px 1px rgba(150, 150, 150, 0.75);
+}
+
+.btn:hover {
+  background-color: #89B5AF;
 }

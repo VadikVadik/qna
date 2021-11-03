@@ -1,6 +1,7 @@
 ol
   -resource.answers.each do |answer|
-    li
-      p= answer.body
-      -if current_user&.is_author?(answer)
-        =link_to 'Delete answer', answer_path(answer), method: :delete
+    -if !answer.new_record?
+      li
+        p= answer.body
+        -if current_user&.author_of?(answer)
+          =link_to 'Delete answer', answer_path(answer), method: :delete

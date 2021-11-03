@@ -41,7 +41,7 @@ RSpec.describe AnswersController, type: :controller do
       before { login(author) }
 
       it 'deletes the created answer' do
-        expect { delete :destroy, params: { id: answer, question_id: question.id } }.to change(author.created_answers, :count).by(-1)
+        expect { delete :destroy, params: { id: answer, question_id: question.id } }.to change(author.answers, :count).by(-1)
       end
 
       it 'redirects to index view' do
@@ -54,7 +54,7 @@ RSpec.describe AnswersController, type: :controller do
       before { login(another_user) }
 
       it "can't delete the answer" do
-        expect { delete :destroy, params: { id: answer, question_id: question.id } }.to_not change(author.created_answers, :count)
+        expect { delete :destroy, params: { id: answer, question_id: question.id } }.to_not change(Answer, :count)
       end
 
       it 'redirects to index view' do

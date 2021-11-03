@@ -1,0 +1,50 @@
+.login-container {
+  width: 500px;
+  margin: 0 auto;
+}
+
+.new_user {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.field {
+  display: grid;
+  grid-template-columns: 120px 380px;
+  align-items: center;
+  grid-column: 1 / -1;
+  margin-bottom: 10px;
+}
+
+.field em {
+  font-size: 12px;
+  line-height: 10px;
+}
+
+.field input {
+  font-size: inherit;
+  padding: 10px;
+  border: 5px solid gray;
+  background: none;
+}
+
+.field input:focus {
+  outline: none;
+  border-color: #864879;
+}
+
+.remember_me {
+  grid-column: 2 / 3;
+  justify-self: end;
+}
+
+.actions {
+  grid-column: 1 / -1;
+  justify-self: center;
+}
+
+.sign-in-up-btn {
+  display: block;
+  width: 150px;
+  padding: 5px 0;
+}

@@ -15,7 +15,7 @@ feature 'Guest can sign up in system', %q{
     expect(page).to have_content 'Welcome! You have signed up successfully.'
   end
 
-  scenario 'Guest tries sign up wuth errors' do
+  scenario 'Guest tries sign up with errors' do
     click_on 'Sign up'
 
     expect(page).to have_content "Email can't be blank"
