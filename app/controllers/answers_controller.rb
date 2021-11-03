@@ -4,13 +4,7 @@ class AnswersController < ApplicationController
   before_action :set_answer, only: :destroy
 
   def create
-    @answer = @question.answers.new(answer_params.merge(author: current_user))
-
-    if @answer.save
-      redirect_to @question
-    else
-      render 'questions/show'
-    end
+    @answer = @question.answers.create(answer_params.merge(author: current_user))
   end
 
   def destroy

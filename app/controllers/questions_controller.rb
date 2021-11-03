@@ -7,6 +7,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
+      @answer = user_signed_in? ? current_user.answers.new() : Answer.new
   end
 
   def new

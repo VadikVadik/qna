@@ -4,14 +4,16 @@ p= @question.body
 -if current_user&.author_of?(@question)
   =link_to 'Delete question', question_path(@question), method: :delete
 
-=render 'shared/errors', resource: @answer
-=form_with model: [@question, Answer], url: question_answers_path(@question), local: true do |f|
-  =f.label :body, 'Answer'
-  =f.text_area :body
-  =f.submit 'To answer'
+h2= 'Answers'
+ol.answers
+  -if !@question.answers.empty?
+    =render @question.answers
+  -else
+    h2= 'No answers yet'
 
--if !@question.answers.empty?
-  h2= 'Answers'
-  =render 'answers', resource: @question
--else
-  h2= 'No answers yet'
+.answer-errors
+
+=form_with model: [@question, @answer], local: false do |f|
+  =f.label :body, 'Your answer'
+  =f.text_area :body
+  =f.submit 'Create'
