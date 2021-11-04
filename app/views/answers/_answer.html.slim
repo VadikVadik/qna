@@ -1,5 +1,5 @@
 -if !answer.new_record?
-  li
+  li [id = "answer-#{answer.id}"]
     p= answer.body
     .answer-editing-errors
     -if current_user&.author_of?(answer)
@@ -8,4 +8,4 @@
         =f.label :body, 'New answer'
         =f.text_area :body
         =f.submit 'Save'
-      =link_to 'Delete answer', answer_path(answer), method: :delete
+      =link_to 'Delete answer', answer_path(answer), class: 'delete-answer-link', method: :delete, remote: true
