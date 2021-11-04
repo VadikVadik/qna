@@ -8,9 +8,19 @@ import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 import "jquery"
-// require('jquery')
 import "../stylesheets/application"
+import "../utilities/edit_answer.js"
 
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
+
+jQuery.ajaxSetup({
+  beforeSend: function(xhr) {
+    $('#spinner').show();
+  },
+  // runs after AJAX requests complete, successfully or not
+  complete: function(xhr, status){
+    $('#spinner').hide();
+  }
+});

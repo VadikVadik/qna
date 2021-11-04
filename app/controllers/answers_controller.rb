@@ -1,10 +1,15 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_question, except: :destroy
-  before_action :set_answer, only: :destroy
+  before_action :set_question, only: :create
+  before_action :set_answer, only: [:update, :destroy]
 
   def create
     @answer = @question.answers.create(answer_params.merge(author: current_user))
+  end
+
+  def update
+    @question = @answer.question
+    @answer.update(answer_params) if current_user.author_of?(@answer)
   end
 
   def destroy
