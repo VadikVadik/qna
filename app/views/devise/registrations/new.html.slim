@@ -10,12 +10,12 @@
     .field
       div
         = f.label :password
-        br
-          - if @minimum_password_length
-            em
-              | (
-              = @minimum_password_length
-              |  characters minimum)
+
+        - if @minimum_password_length
+          em
+            |  (
+            = @minimum_password_length
+            |  characters minimum)
 
       = f.password_field :password, autocomplete: "new-password"
     .field

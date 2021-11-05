@@ -3,12 +3,13 @@ require 'rails_helper'
 feature 'User can edit his answer', %q{
   In order to correct mistakes
   As an author of answer
-  I'd like to be able to ediy my answer
+  I'd like to be able to edit my answer
 } do
   given(:user) { create(:user) }
   given(:another_user) { create(:user) }
-  given(:question) { create(:question, author: user) }
+  given!(:question) { create(:question, author: user) }
   given!(:answer) { create(:answer, question: question, author: user) }
+  given!(:another_answer) { create(:answer, question: question, author: another_user) }
 
   scenario 'Unauthenticated can not edit answer' do
     visit(question_path(question))
@@ -50,11 +51,34 @@ feature 'User can edit his answer', %q{
       end
     end
 
+    scenario 'edits the answer that is chosen the best', js: true do
+      sign_in(user)
+      visit question_path(question)
+      find('.answers li:last-child .best-link').click()
+      wait_for_ajax
+
+      click_on 'Log Out'
+
+      sign_in(another_user)
+      visit question_path(question)
+
+      within('.answers') do
+        click_on 'Edit'
+        fill_in 'New answer', with: 'Edited answer'
+        click_on 'Save'
+        wait_for_ajax
+      end
+
+      within('.best-answer') do
+        expect(page).to have_content 'Edited answer'
+      end
+    end
+
     scenario "tries to edit other user's answer" do
       sign_in(another_user)
       visit question_path(question)
 
-      within '.answers' do
+      within '.answers li:first-child' do
         expect(page).to_not have_link 'Edit'
       end
     end

@@ -10,15 +10,10 @@
 
 .field {
   display: grid;
-  grid-template-columns: 120px 380px;
+  grid-template-columns: 500px;
   align-items: center;
   grid-column: 1 / -1;
   margin-bottom: 10px;
-}
-
-.field em {
-  font-size: 12px;
-  line-height: 10px;
 }
 
 .field input {

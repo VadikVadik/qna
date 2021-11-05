@@ -2,6 +2,8 @@
   li [id = "answer-#{answer.id}"]
     p= answer.body
     .answer-editing-errors
+    -if current_user&.author_of?(answer.question)
+      =link_to 'Mark as best', question_path(answer.question, question: { best_answer_id: answer.id }), class: 'best-link', method: :patch, remote: true
     -if current_user&.author_of?(answer)
       =link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
       =form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
