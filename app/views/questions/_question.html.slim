@@ -16,6 +16,6 @@ p= question.body
     =f.label :body, 'New question'
     =f.text_area :body
     =f.label :files
-    =f.file_field :files, multiple: true
+    =f.file_field :files, multiple: true, direct_upload: true
     =f.submit 'Save'
   =link_to 'Delete question', question_path(question), method: :delete
