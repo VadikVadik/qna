@@ -1,0 +1,55 @@
+.question-body {
+  display: flex;
+  justify-content: start;
+}
+
+.question-text {
+  width: 600px;
+  padding: 0 20px;
+  border-right: 2px solid #D0CAB2;
+}
+
+.question-actions {
+  position: relative;
+  padding-left: 20px;
+}
+
+.question-files {
+  padding: 20px 0;
+  margin: 0;
+  font-size: 16px;
+  list-style-type: none;
+}
+
+.question-links {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.question-links-item {
+  margin-right: 15px;
+}
+
+.question-links-link {
+  padding: 5px 10px;
+  font-size: 16px;
+}
+
+.edit-question-form {
+  position: absolute;
+  top: 0;
+  left: 20px;
+  width: 400px;
+  background-color: #FEF5ED;
+}
+
+.edit-question-form p:first-of-type {
+  display: flex;
+  flex-direction: column;
+}
+
+.files-label {
+  margin-right: 10px;
+}
