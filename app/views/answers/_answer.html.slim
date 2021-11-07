@@ -1,6 +1,9 @@
 -if !answer.new_record?
   li [id = "answer-#{answer.id}"]
     p= answer.body
+    -if answer.files.attached?
+      -answer.files.each do |file|
+        =link_to file.filename.to_s, url_for(file)
     .answer-editing-errors
     -if current_user&.author_of?(answer.question)
       =link_to 'Mark as best', question_path(answer.question, question: { best_answer_id: answer.id }), class: 'best-link', method: :patch, remote: true
