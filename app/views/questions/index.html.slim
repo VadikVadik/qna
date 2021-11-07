@@ -1,4 +1,20 @@
-h1= 'All questions'
-ul= render @questions
-
-p= link_to 'Ask question', new_question_path
+h1.main-title= 'All Q&A questions'
+ul.questions-list
+  -@questions.each do |question|
+    li.questions-list-item
+      = link_to question.title, question_path(question), class: 'question-link'
+      .question-description
+        -if question.answers.count > 0
+          span class='question-property answers-yes'
+            | Answers: #{question.answers.count}
+          span class='question-property last-answer-date'
+            | Last answer: #{question.answers.last.created_at.to_datetime.to_formatted_s(:long_ordinal)}
+          span.question-property
+            | Best answer:
+            -if question.best_answer
+              span.tagged= ' tagged'
+            -else
+              span.not-tagged= ' not tagged'
+        -else
+          span class='question-property answers-no'
+            | No answers

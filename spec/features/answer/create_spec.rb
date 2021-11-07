@@ -15,17 +15,18 @@ feature 'User can create answer', %q{
       visit question_path(question)
     end
 
-    scenario 'tries to give answer' do
-      fill_in 'Answer', with: 'new answer body'
-      click_on 'To answer'
+    scenario 'tries to give answer', js: true do
+      fill_in 'Your answer', with: 'new answer body'
+      click_on 'Create'
 
-      expect(page).to have_content question.title
-      expect(page).to have_content question.body
-      expect(page).to have_content 'new answer body'
+      expect(current_path).to eq question_path(question)
+      within '.answers' do
+        expect(page).to have_content 'new answer body'
+      end
     end
 
-    scenario 'tries to give answer with errors' do
-      click_on 'To answer'
+    scenario 'tries to give answer with errors', js: true do
+      click_on 'Create'
 
       expect(page).to have_content "Body can't be blank"
     end
@@ -34,8 +35,8 @@ feature 'User can create answer', %q{
   scenario 'Unauthenticated user tries to give answer' do
     visit question_path(question)
 
-    fill_in 'Answer', with: 'new answer body'
-    click_on 'To answer'
+    fill_in 'Your answer', with: 'new answer body'
+    click_on 'Create'
 
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
