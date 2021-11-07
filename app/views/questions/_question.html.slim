@@ -1,5 +1,8 @@
 h1= question.title
 p= question.body
+-if question.files.attached?
+  -question.files.each do |file|
+    =link_to file.filename.to_s, url_for(file)
 .question-editing-errors
 
 -if !question.best_answer.nil?

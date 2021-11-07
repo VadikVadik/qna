@@ -11,7 +11,7 @@ feature 'User can view the list of questions', %q{
   scenario 'User views the list of all questions' do
     visit questions_path
 
-    expect(page).to have_content 'All questions'
+    expect(page).to have_content 'All Q&A questions'
     Question.pluck(:title).each { |title| expect(page).to have_content title }
   end
 end
