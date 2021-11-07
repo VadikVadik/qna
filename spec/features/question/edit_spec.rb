@@ -36,6 +36,16 @@ feature 'User can edit his question', %q{
         end
       end
 
+      scenario 'with attached files', js: true do
+        within '.question' do
+          attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+          click_on 'Save'
+
+          expect(page).to have_link 'rails_helper.rb'
+          expect(page).to have_link 'spec_helper.rb'
+        end
+      end
+
       scenario 'with errors', js: true do
         fill_in 'New question', with: ''
         click_on 'Save'
