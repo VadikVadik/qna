@@ -4,6 +4,7 @@
     -if answer.files.attached?
       -answer.files.each do |file|
         =link_to file.filename.to_s, url_for(file)
+        =link_to 'Delete file', answer_path(answer, delete_file: file.id), method: :patch, remote: true
     .answer-editing-errors
     -if current_user&.author_of?(answer.question)
       =link_to 'Mark as best', question_path(answer.question, question: { best_answer_id: answer.id }), class: 'best-link', method: :patch, remote: true

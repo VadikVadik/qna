@@ -49,6 +49,21 @@ feature 'User can edit his answer', %q{
         end
       end
 
+      scenario 'with file deletion', js: true do
+        within '.answers' do
+          attach_file 'File', "#{Rails.root}/spec/rails_helper.rb"
+          click_on 'Save'
+          wait_for_ajax
+
+          expect(page).to have_link 'rails_helper.rb'
+
+          click_on 'Delete file'
+          wait_for_ajax
+
+          expect(page).to_not have_link 'rails_helper.rb'
+        end
+      end
+
       scenario 'with errors', js: true do
         within '.answers' do
           fill_in 'New answer', with: ''

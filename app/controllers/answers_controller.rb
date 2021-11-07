@@ -9,7 +9,13 @@ class AnswersController < ApplicationController
 
   def update
     @question = @answer.question
-    @answer.update(answer_params) if current_user.author_of?(@answer)
+
+    if params[:delete_file]
+      @answer.files.find(params[:delete_file]).purge if current_user.author_of?(@answer)
+      @answer.reload
+    else
+      @answer.update(answer_params) if current_user.author_of?(@answer)
+    end
   end
 
   def destroy
