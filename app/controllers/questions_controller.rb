@@ -29,12 +29,7 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if params[:delete_file]
-      @question.files.find(params[:delete_file]).purge if current_user.author_of?(@question)
-      @question.reload
-    else
-      @question.update(question_params) if current_user.author_of?(@question)
-    end
+    @question.update(question_params) if current_user.author_of?(@question)
   end
 
   def destroy

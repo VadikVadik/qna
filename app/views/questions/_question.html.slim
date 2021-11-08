@@ -7,7 +7,7 @@ h1= question.title
         -question.files.each do |file|
           li
             =link_to file.filename.to_s, url_for(file)
-            =link_to 'Delete file', question_path(question, delete_file: file.id), method: :patch, remote: true
+            =link_to 'Delete file', file_path(file), method: :delete, remote: true
     -else
       p.no-files= 'No files'
     -if current_user&.author_of?(question)

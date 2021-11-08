@@ -1,0 +1,5 @@
+<% if @file.record_type == "Question" %>
+  $('.question').html('<%= j render @question %>');
+<% elsif @file.record_type == "Answer" %>
+  $('.answers').html('<%= j render @question.answers %>');
+<% end %>
