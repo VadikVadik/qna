@@ -5,6 +5,13 @@
       -answer.files.each do |file|
         =link_to file.filename.to_s, url_for(file)
         =link_to 'Delete file', file_path(file), method: :delete, remote: true
+    -if !answer.links.empty?
+      ul.user-links
+        -answer.links.each do |link|
+          li
+            =link_to link.name, link.url
+    -else
+      p.no-links= 'No links'
     .answer-editing-errors
     -if current_user&.author_of?(answer.question)
       =link_to 'Mark as best', question_path(answer.question, question: { best_answer_id: answer.id }), class: 'best-link', method: :patch, remote: true

@@ -8,6 +8,7 @@ class QuestionsController < ApplicationController
 
   def show
       @answer = user_signed_in? ? current_user.answers.new() : Answer.new
+      @answer.links.build
       @best_answer = @question.best_answer
 		  @other_answers = @question.answers.where.not(id: @question.best_answer_id)
   end
