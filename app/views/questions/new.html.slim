@@ -1,15 +1,15 @@
 =render 'shared/errors', resource: @question
 
-= form_with model: @question, local:true do |f|
-  = f.label :title, 'New question'
-  = f.text_field :title
-  = f.label :body
-  = f.text_area :body
-  = f.label :files
-  = f.file_field :files, multiple: true, direct_upload: true
-  = f.fields_for :links do |l|
-    = l.label :name, 'Link name'
-    = l.text_field :name
-    = l.label :url
-    = l.text_field :url
-  = f.submit 'Ask'
+.new-question-form
+  = form_with model: @question, local:true do |f|
+    = f.label :title, 'New question'
+    = f.text_field :title
+    = f.label :body
+    = f.text_area :body
+    = f.label :files
+    = f.file_field :files, multiple: true, direct_upload: true
+    #links
+      = f.fields_for :links do |l|
+        =render 'link_fields', :f => l
+        =link_to_add_association 'add link', f, :links
+    = f.submit 'Ask'
