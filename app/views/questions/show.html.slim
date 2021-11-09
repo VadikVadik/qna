@@ -6,11 +6,13 @@ ol.answers
   -if !@question.answers.empty?
     =render @question.answers
   -else
-    h2= 'No answers yet'
+    p= 'No answers yet'
 
 .answer-errors
 
 =form_with model: [@question, @answer], class: 'new-answer', local: false do |f|
   =f.label :body, 'Your answer'
   =f.text_area :body
+  =f.label :files
+  =f.file_field :files, multiple: true, direct_upload: true
   =f.submit 'Create'

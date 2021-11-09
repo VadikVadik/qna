@@ -1,45 +1,55 @@
-.questions-list {
-  list-style-type: none;
-  padding: 0;
+.question-body {
+  display: flex;
+  justify-content: start;
+}
+
+.question-text {
+  width: 600px;
+  padding: 0 20px;
+  border-right: 2px solid #D0CAB2;
+}
+
+.question-actions {
+  position: relative;
+  padding-left: 20px;
+}
+
+.question-files {
+  padding: 20px 0;
   margin: 0;
+  font-size: 16px;
+  list-style-type: none;
 }
 
-.questions-list-item {
-  padding: 10px;
-  padding-bottom: 5px;
-  margin-bottom: 5px;
-  border-bottom: 2px solid #D0CAB2;
-  font-size: 14px;
-  line-height: 26px;
-  color: #444444;
+.question-links {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
 }
 
-.question-link {
-  display: block;
-  font-size: 25px;
-  line-height: 34px;
-  margin-bottom: 5px;
-}
-
-.question-property {
-  padding: 0 5px;
-}
-
-.question-property:not(last-child) {
+.question-links-item {
   margin-right: 15px;
 }
 
-.tagged,
-.answers-yes {
-  color: #5AA469;
+.question-links-link {
+  padding: 5px 10px;
+  font-size: 16px;
 }
 
-.not-tagged,
-.answers-no {
-  color: #D35D6E;
+.edit-question-form {
+  position: absolute;
+  top: 0;
+  left: 20px;
+  width: 400px;
+  background-color: #FEF5ED;
 }
 
-.last-answer-date {
-  background-color: #444444;
-  color: #FEF5ED;
+.edit-question-form p:first-of-type {
+  display: flex;
+  flex-direction: column;
+}
+
+.files-label {
+  margin-right: 10px;
 }

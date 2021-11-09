@@ -1,15 +1,32 @@
 h1= question.title
-p= question.body
+.question-body
+  p.question-text= question.body
+  .question-actions
+    -if question.files.attached?
+      ul.question-files
+        -question.files.each do |file|
+          li
+            =link_to file.filename.to_s, url_for(file)
+            =link_to 'Delete file', file_path(file), method: :delete, remote: true
+    -else
+      p.no-files= 'No files'
+    -if current_user&.author_of?(question)
+      ul.question-links
+        li.question-links-item
+          =link_to 'Edit question', '#', class: 'edit-question-link question-links-link btn', data: { question_id: question.id }
+          =form_with model: question, class: 'hidden edit-question-form', html: { id: "edit-question-#{question.id}" }, local: false do |f|
+            p
+              =f.label :body, 'New question:'
+              =f.text_area :body, rows: 5
+            p
+              =f.label :files, class: 'files-label'
+              =f.file_field :files, multiple: true, direct_upload: true
+              =f.submit 'Save', class: 'btn'
+        li.question-links-item
+          =link_to 'Delete question', question_path(question), class: 'btn question-links-link', method: :delete
+
 .question-editing-errors
 
 -if !question.best_answer.nil?
   .best-answer
     p= question.best_answer.body
-
--if current_user&.author_of?(question)
-  =link_to 'Edit question', '#', class: 'edit-question-link', data: { question_id: question.id }
-  =form_with model: question, class: 'hidden', html: { id: "edit-question-#{question.id}" }, local: false do |f|
-    =f.label :body, 'New question'
-    =f.text_area :body
-    =f.submit 'Save'
-  =link_to 'Delete question', question_path(question), method: :delete

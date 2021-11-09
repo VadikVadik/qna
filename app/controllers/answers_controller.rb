@@ -9,6 +9,7 @@ class AnswersController < ApplicationController
 
   def update
     @question = @answer.question
+
     @answer.update(answer_params) if current_user.author_of?(@answer)
   end
 
@@ -23,7 +24,7 @@ class AnswersController < ApplicationController
   private
 
   def set_answer
-    @answer = Answer.find(params[:id])
+    @answer = Answer.with_attached_files.find(params[:id])
   end
 
   def set_question
@@ -31,6 +32,6 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:body)
+    params.require(:answer).permit(:body, files: [])
   end
 end

@@ -1,6 +1,10 @@
 -if !answer.new_record?
   li [id = "answer-#{answer.id}"]
     p= answer.body
+    -if answer.files.attached?
+      -answer.files.each do |file|
+        =link_to file.filename.to_s, url_for(file)
+        =link_to 'Delete file', file_path(file), method: :delete, remote: true
     .answer-editing-errors
     -if current_user&.author_of?(answer.question)
       =link_to 'Mark as best', question_path(answer.question, question: { best_answer_id: answer.id }), class: 'best-link', method: :patch, remote: true
@@ -9,5 +13,7 @@
       =form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
         =f.label :body, 'New answer'
         =f.text_area :body
+        =f.label :files
+        =f.file_field :files, multiple: true, direct_upload: true
         =f.submit 'Save'
       =link_to 'Delete answer', answer_path(answer), class: 'delete-answer-link', method: :delete, remote: true
