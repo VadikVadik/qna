@@ -14,6 +14,7 @@ class QuestionsController < ApplicationController
 
   def new
     @question = current_user.questions.new
+    @question.links.build
   end
 
   def edit
@@ -48,6 +49,7 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, :best_answer_id, files: [])
+    params.require(:question).permit(:title, :body, :best_answer_id,
+                                     files: [], links_attributes: [:name, :url])
   end
 end

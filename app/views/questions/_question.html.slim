@@ -10,6 +10,15 @@ h1= question.title
             =link_to 'Delete file', file_path(file), method: :delete, remote: true
     -else
       p.no-files= 'No files'
+
+    -if !question.links.empty?
+      ul.user-links
+        -question.links.each do |link|
+          li
+            =link_to link.name, link.url
+    -else
+      p.no-links= 'No links'
+
     -if current_user&.author_of?(question)
       ul.question-links
         li.question-links-item
