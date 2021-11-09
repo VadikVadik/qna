@@ -4,12 +4,12 @@ class FilesController < ApplicationController
   def destroy
     @file = ActiveStorage::Attachment.find(params[:id])
 
-    if @file.record_type == "Question"
-      @question = Question.find(@file.record_id)
-    elsif @file.record_type == "Answer"
-      @question = Answer.find(@file.record_id).question
+    if @file.record.instance_of?(Question)
+      @question = @file.record
+    elsif @file.record.instance_of?(Answer)
+      @question = @file.record.question
     end
 
-    @file.purge if current_user.author_of?(Object.const_get(@file.record_type).find(@file.record_id))
+    @file.purge if current_user.author_of?(@file.record)
   end
 end
