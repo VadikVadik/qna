@@ -7,7 +7,8 @@ h1= question.title
         -question.files.each do |file|
           li
             =link_to file.filename.to_s, url_for(file)
-            =link_to 'Delete file', file_path(file), method: :delete, remote: true
+            -if current_user&.author_of?(question)
+              =link_to 'Delete file', file_path(file), method: :delete, remote: true
     -else
       p.no-files= 'No files'
 
@@ -16,9 +17,13 @@ h1= question.title
         -question.links.each do |link|
           -if link.gist?
             = javascript_include_tag link.url + '.js'
+            -if current_user&.author_of?(question)
+              =link_to 'Delete link', link_path(link), method: :delete, remote: true
           -else
             li
               =link_to link.name, link.url
+              -if current_user&.author_of?(question)
+                =link_to 'Delete link', link_path(link), method: :delete, remote: true
     -else
       p.no-links= 'No links'
 

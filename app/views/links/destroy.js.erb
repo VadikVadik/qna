@@ -1,0 +1,5 @@
+<% if @link.linkable.instance_of?(Question) %>
+  $('.question').html('<%= j render @question %>');
+<% elsif @link.linkable.instance_of?(Answer) %>
+  $('.answers').html('<%= j render @question.answers %>');
+<% end %>
