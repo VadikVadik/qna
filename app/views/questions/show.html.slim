@@ -11,12 +11,15 @@ ol.answers
 .answer-errors
 
 =form_with model: [@question, @answer], class: 'new-answer', local: false do |f|
-  =f.label :body, 'Your answer'
-  =f.text_area :body
-  =f.label :files
-  =f.file_field :files, multiple: true, direct_upload: true
+  .field
+    =f.label :body, 'Your answer'
+    =f.text_area :body
+  .field
+    =f.label :files
+    =f.file_field :files, multiple: true, direct_upload: true
   #links
     = f.fields_for :links do |l|
       =render 'link_fields', :f => l
+    .link-link
       =link_to_add_association 'add link', f, :links
   =f.submit 'Create'

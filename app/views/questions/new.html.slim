@@ -2,14 +2,18 @@
 
 .new-question-form
   = form_with model: @question, local:true do |f|
-    = f.label :title, 'New question'
-    = f.text_field :title
-    = f.label :body
-    = f.text_area :body
-    = f.label :files
-    = f.file_field :files, multiple: true, direct_upload: true
+    .field
+      = f.label :title, 'New question'
+      = f.text_field :title
+    .field
+      = f.label :body
+      = f.text_area :body
+    .field
+      = f.label :files
+      = f.file_field :files, multiple: true, direct_upload: true
     #links
       = f.fields_for :links do |l|
         =render 'link_fields', :f => l
+      .link-link
         =link_to_add_association 'add link', f, :links
     = f.submit 'Ask'

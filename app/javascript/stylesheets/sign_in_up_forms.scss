@@ -16,14 +16,16 @@
   margin-bottom: 10px;
 }
 
-.field input {
+.field input,
+.field textarea {
   font-size: inherit;
   padding: 10px;
   border: 5px solid gray;
   background: none;
 }
 
-.field input:focus {
+.field input:focus,
+.field textarea:focus {
   outline: none;
   border-color: #864879;
 }
