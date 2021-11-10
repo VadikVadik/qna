@@ -1,0 +1,8 @@
+.nested-fields
+  .field
+    =f.label :title, 'Award title'
+    =f.text_field :title
+  .field
+    =f.label :image
+    =f.file_field :image, direct_upload: true
+  =link_to_remove_association "remove award", f
