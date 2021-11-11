@@ -31,6 +31,10 @@ class QuestionsController < ApplicationController
   end
 
   def update
+    if !question_params[:best_answer_id].nil? && !@question.award.nil?
+      @question.award.owner = Answer.find(question_params[:best_answer_id]).author
+    end
+
     @question.update(question_params) if current_user.author_of?(@question)
   end
 

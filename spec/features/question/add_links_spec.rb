@@ -27,7 +27,7 @@ feature 'User can add links to question', %q{
       expect(page).to have_link 'Google', href: url
     end
 
-    scenario 'with gist' do
+    scenario 'with gist', js: true do
       fill_in 'Link name', with: 'My gist'
       fill_in 'Url', with: gist_url
 

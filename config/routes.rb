@@ -8,4 +8,5 @@ Rails.application.routes.draw do
 
   resources :files, only: :destroy
   resources :links, only: :destroy
+  resources :users, only: :show
 end

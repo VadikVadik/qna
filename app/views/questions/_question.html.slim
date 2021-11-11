@@ -2,15 +2,15 @@ h1= question.title
 .question-body
   .question-main
     p.question-text= question.body
+    .gists
+      -Link.get_gists(question).each do |gist|
+        =javascript_include_tag gist.url+'.js'
+        =link_to gist.name, gist.url, class: 'gist-link', data: { gist_id: gist.url.split("/").last }
     .question-extra
-      -if !question.links.empty?
+      -if !(question.links - Link.get_gists(question)).empty?
         ul.user-links
           -question.links.each do |link|
-            -if link.gist?
-              = javascript_include_tag link.url + '.js'
-              -if current_user&.author_of?(question)
-                =link_to 'Delete link', link_path(link), method: :delete, remote: true
-            -else
+            -if !link.gist?
               li
                 =link_to link.name, link.url
                 -if current_user&.author_of?(question)
