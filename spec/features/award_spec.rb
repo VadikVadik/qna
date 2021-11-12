@@ -41,8 +41,10 @@ feature 'The author of the question can assign a reward for the best answer', %q
     wait_for_ajax
 
     click_on 'Mark as best'
+    wait_for_ajax
 
     visit user_path(user)
+
     expect(page).to have_content 'Gold award'
   end
 end

@@ -3,11 +3,11 @@ h1= question.title
   .question-main
     p.question-text= question.body
     .gists
-      -Link.get_gists(question).each do |gist|
+      -question.links.select { |link| link.gist? }.each do |gist|
         =javascript_include_tag gist.url+'.js'
         =link_to gist.name, gist.url, class: 'gist-link', data: { gist_id: gist.url.split("/").last }
     .question-extra
-      -if !(question.links - Link.get_gists(question)).empty?
+      -if !(question.links - question.links.select { |link| link.gist? }).empty?
         ul.user-links
           -question.links.each do |link|
             -if !link.gist?

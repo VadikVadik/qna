@@ -2,10 +2,10 @@
   li [id = "answer-#{answer.id}"]
     p= answer.body
     .gists
-      -Link.get_gists(answer).each do |gist|
+      -answer.links.select { |link| link.gist? }.each do |gist|
         =javascript_include_tag gist.url+'.js'
         =link_to gist.name, gist.url, class: 'gist-link', data: { gist_id: gist.url.split("/").last }
-    -if !(answer.links - Link.get_gists(answer)).empty?
+    -if !(answer.links - answer.links.select { |link| link.gist? }).empty?
       ul.user-links
         -answer.links.each do |link|
           -if !link.gist?
