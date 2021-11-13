@@ -30,6 +30,7 @@ feature 'User can add links to question', %q{
     scenario 'with gist', js: true do
       fill_in 'Link name', with: 'My gist'
       fill_in 'Url', with: gist_url
+      check 'Gist'
 
       click_on 'Ask'
 

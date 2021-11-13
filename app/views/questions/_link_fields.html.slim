@@ -5,4 +5,8 @@
   .field
     =f.label :url
     =f.text_field :url
+  .field
+    =f.label :gist
+      span= 'Gist'
+      =f.check_box :gist
   =link_to_remove_association "remove link", f
