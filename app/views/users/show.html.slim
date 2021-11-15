@@ -1,0 +1,10 @@
+h1= 'My Awards'
+ul
+  -current_user.awards.each do |award|
+    li
+      p
+       | For the best answer to the question: #{award.question.title}
+      p= award.title
+      -if !award.image.url.nil?
+       .award-img-container
+         =image_tag award.image.url, class: 'award-image'

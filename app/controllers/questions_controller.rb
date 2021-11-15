@@ -8,12 +8,14 @@ class QuestionsController < ApplicationController
 
   def show
       @answer = user_signed_in? ? current_user.answers.new() : Answer.new
+      @answer.links.build
       @best_answer = @question.best_answer
 		  @other_answers = @question.answers.where.not(id: @question.best_answer_id)
   end
 
   def new
     @question = current_user.questions.new
+    @question.links.build
   end
 
   def edit
@@ -30,6 +32,10 @@ class QuestionsController < ApplicationController
 
   def update
     @question.update(question_params) if current_user.author_of?(@question)
+
+    if !question_params[:best_answer_id].nil? && !@question.award.nil?
+      @question.award.update(owner: @question.best_answer.author)
+    end
   end
 
   def destroy
@@ -48,6 +54,8 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, :best_answer_id, files: [])
+    params.require(:question).permit(:title, :body, :best_answer_id, files: [],
+                                     links_attributes: [:id, :name, :url, :gist, :_destroy],
+                                     award_attributes: [:id, :title, :image, :_destroy])
   end
 end

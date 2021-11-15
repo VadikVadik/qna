@@ -1,12 +1,19 @@
+.question {
+  padding-bottom: 30px;
+  margin-bottom: 50px;
+  border-bottom: 5px solid gray;
+}
+
 .question-body {
   display: flex;
   justify-content: start;
 }
 
-.question-text {
-  width: 600px;
+.question-main {
+  width: 740px;
   padding: 0 20px;
   border-right: 2px solid #D0CAB2;
+  margin-bottom: 20px;
 }
 
 .question-actions {
@@ -23,12 +30,13 @@
 
 .question-links {
   display: flex;
+  justify-content: space-between;
   margin: 0;
   padding: 0;
   list-style-type: none;
 }
 
-.question-links-item {
+.question-links-item:not(:last-child) {
   margin-right: 15px;
 }
 
@@ -52,4 +60,43 @@
 
 .files-label {
   margin-right: 10px;
+}
+
+.award-container {
+  margin-bottom: 15px;
+}
+
+.award-title {
+  text-align: center;
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-shadow: 3px 3px 3px rgba(150, 150, 150, 1);
+}
+
+.award-img-container {
+  margin: 0 auto;
+  width: 150px;
+  height: 150px;
+}
+
+.award-image {
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.best-answer {
+  background-color: white;
+  padding: 15px;
+}
+
+.bets-answer-title {
+  padding: 0;
+  margin: 0;
+  margin-bottom: 5px;
+}
+
+.bets-answer-text {
+  margin: 0;
+  padding: 0;
 }
