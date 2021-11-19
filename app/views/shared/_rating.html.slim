@@ -1,0 +1,17 @@
+div class="#{resource.class.to_s.downcase}-rating-wrapper"
+  p class="#{resource.class.to_s.downcase}-rating-error"
+  p class="#{resource.class.to_s.downcase}-rating"
+    | Rating: #{resource.rating}
+  -if !current_user&.author_of?(resource)
+    =link_to 'Vote for', polymorphic_path([:vote, resource], vote: { status: 1 }),
+                         class: 'vote-link vote-for-link',
+                         method: :post,
+                         remote: true
+    =link_to 'Vote against', polymorphic_path([:vote, resource], vote: { status: -1 }),
+                             class: 'vote-link vote-against-link',
+                             method: :post,
+                             remote: true
+    =link_to 'Change my vote', polymorphic_path([:unvote, resource]),
+                               class: 'vote-link change-vote-link',
+                               method: :delete,
+                               remote: true

@@ -39,11 +39,4 @@
               =link_to_add_association 'add link', f, :links
           =f.submit 'Save'
         =link_to 'Delete answer', answer_path(answer), class: 'delete-answer-link', method: :delete, remote: true
-    .answer-rating-wrapper
-      p.answer-rating-error
-      p.answer-rating
-        | Rating: #{answer.rating}
-      -if !current_user&.author_of?(answer)
-        =link_to 'Vote for', vote_answer_path(answer, vote: { status: 'for' }), class: 'vote-link for-answer-link', method: :post, remote: true
-        =link_to 'Vote against', vote_answer_path(answer, vote: { status: 'against' }), class: 'vote-link against-answer-link', method: :post, remote: true
-        =link_to 'Change my vote', unvote_answer_path(answer), class: 'vote-link change-answer-vote', method: :delete, remote: true
+    = render 'shared/rating', resource: answer

@@ -32,14 +32,7 @@ h1= question.title
         -if !question.award.image.url.nil?
           .award-img-container
             =image_tag question.award.image.url, class: 'award-image'
-    .question-rating-wrapper
-      p.question-rating-error
-      p.question-rating
-        | Rating: #{question.rating}
-      -if !current_user&.author_of?(question)
-        =link_to 'Vote for', vote_question_path(question, vote: { status: 'for' }), class: 'vote-link for-question-link', method: :post, remote: true
-        =link_to 'Vote against', vote_question_path(question, vote: { status: 'against' }), class: 'vote-link against-question-link', method: :post, remote: true
-        =link_to 'Change my vote', unvote_question_path(question), class: 'vote-link change-question-vote', method: :delete, remote: true
+    = render 'shared/rating', resource: question
     -if current_user&.author_of?(question)
       ul.question-links
         li.question-links-item

@@ -34,28 +34,34 @@ $(document).on('turbolinks:load', function () {
     })
 
 // ajax голосование
-
-  $('.for-question-link, .against-question-link, .change-question-vote').on('ajax:success', function (e) {
+  $('.vote-for-link, .vote-against-link, .change-vote-link').on('ajax:success', function (e) {
     vote = e.detail[0];
+    votable = vote.votable_type.toLowerCase();
+    console.log(votable);
 
-    $('.question-rating-error').html('');
-    $('.question-rating').text('Rating: ' + vote.votable_rating);
+    $('.' + votable + '-rating-error').html('');
+
+    if(votable == 'question') {
+      $('.question-rating').text('Rating: ' + (vote.votable_rating + parseInt(vote.status, 10)));
+    } else if(votable == 'answer') {
+      $('#answer-' + vote.votable_id + ' .answer-rating').text('Rating: ' + (vote.votable_rating + parseInt(vote.status, 10)));
+    }
   })
     .on('ajax:error', function (e) {
       error = e.detail[0];
+      votable = ''
+      if(Array.isArray(error)) {
+        votable = error.pop().toLowerCase();
+        votable_id = error.pop();
+      }
 
-      $('.question-rating-error').html('').append('<p>' + error + '</p>');
-    })
-
-  $('.for-answer-link, .against-answer-link, .change-answer-vote').on('ajax:success', function (e) {
-    vote = e.detail[0];
-
-    $('.answer-rating-error').html('');
-    $('#answer-' + vote.votable_id + ' .answer-rating').text('Rating: ' + vote.votable_rating);
-  })
-    .on('ajax:error', function (e) {
-      error = e.detail[0];
-
-      $('.answer-rating-error').html('').append('<p>' + error + '</p>');
+      if(votable == 'question') {
+        $('.question-rating-error').html('').append('<p>' + error + '</p>');
+      } else if(votable == 'answer') {
+        $('#answer-' + votable_id + ' .answer-rating-error').html('').append('<p>' + error + '</p>');
+      } else {
+        $('.unauth-voting-alert').html('').append('<p>' + error + '</p>');
+        window.scrollTo(top);
+      }
     })
 });

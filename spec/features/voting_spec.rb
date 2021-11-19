@@ -58,8 +58,8 @@ feature 'Users can vote for questions and answers', %q{
     scenario 'tries to vote for the question', js: true do
       within('.question') do
         click_on 'Vote for'
-        expect(page).to have_content 'You need to sign in or sign up before continuing.'
       end
+      expect(page).to have_content 'You need to sign in or sign up before continuing.'
     end
   end
 end
