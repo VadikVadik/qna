@@ -6,6 +6,6 @@ module Votable
   end
 
   def rating
-    votes.pluck(:status).sum
+    votes.sum(:status)
   end
 end

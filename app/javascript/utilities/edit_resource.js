@@ -37,7 +37,6 @@ $(document).on('turbolinks:load', function () {
   $('.vote-for-link, .vote-against-link, .change-vote-link').on('ajax:success', function (e) {
     vote = e.detail[0];
     votable = vote.votable_type.toLowerCase();
-    console.log(votable);
 
     $('.' + votable + '-rating-error').html('');
 
@@ -48,11 +47,14 @@ $(document).on('turbolinks:load', function () {
     }
   })
     .on('ajax:error', function (e) {
-      error = e.detail[0];
-      votable = ''
-      if(Array.isArray(error)) {
-        votable = error.pop().toLowerCase();
-        votable_id = error.pop();
+      if(typeof e.detail[0] == "object") {
+        info = e.detail[0];
+        error = info.errors;
+        votable = info.votable_type.toLowerCase();
+        votable_id = info.votable_id;
+      } else {
+        error = e.detail[0];
+        votable = '';
       }
 
       if(votable == 'question') {

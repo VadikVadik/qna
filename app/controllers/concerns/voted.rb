@@ -13,7 +13,10 @@ module Voted
         format.json { render json: @vote }
       else
         format.json do
-          render json: @vote.errors.full_messages + [@votable.id, @vote.votable_type], status: :unprocessable_entity
+          render json: {errors: @vote.errors.full_messages,
+                        votable_id: @votable.id,
+                        votable_type: @vote.votable_type},
+                        status: :unprocessable_entity
         end
       end
     end
@@ -30,7 +33,10 @@ module Voted
                                     status: 0} }
       else
         format.json do
-          render json: ['Vote first!', @votable.id, @votable.class.to_s], status: :unprocessable_entity
+          render json: {errors: ['Vote first!'],
+                        votable_id: @votable.id,
+                        votable_type: @votable.class.to_s},
+                        status: :unprocessable_entity
         end
       end
     end
