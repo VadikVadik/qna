@@ -32,7 +32,7 @@ h1= question.title
         -if !question.award.image.url.nil?
           .award-img-container
             =image_tag question.award.image.url, class: 'award-image'
-
+    = render 'shared/rating', resource: question
     -if current_user&.author_of?(question)
       ul.question-links
         li.question-links-item

@@ -5,7 +5,10 @@ RSpec.describe Question, type: :model do
   it { should belong_to(:best_answer).class_name('Answer').optional(:true) }
   it { should have_many(:answers).dependent(:destroy) }
   it { should have_many(:links).dependent(:destroy) }
+  it { should have_many(:votes).dependent(:destroy) }
   it { should have_one(:award).dependent(:destroy) }
+
+  it_behaves_like 'votable'
 
   it { should accept_nested_attributes_for :links }
   it { should accept_nested_attributes_for :award }

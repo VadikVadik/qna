@@ -1,40 +1,42 @@
 -if !answer.new_record?
   li [id = "answer-#{answer.id}"]
-    p= answer.body
-    .gists
-      -answer.links.gists.each do |gist|
-        =javascript_include_tag gist.url+'.js'
-        =link_to gist.name, gist.url, class: 'gist-link', data: { gist_id: gist.url.split("/").last }
-    -if !(answer.links.not_gists).empty?
-      ul.user-links
-        -answer.links.not_gists.each do |link|
-          li
-            =link_to link.name, link.url
-            -if current_user&.author_of?(answer)
-              =link_to 'Delete link', link_path(link), method: :delete, remote: true
-    -else
-      p.no-links= 'No links'
-    -if answer.files.attached?
-      -answer.files.each do |file|
-        =link_to file.filename.to_s, url_for(file)
-        -if current_user&.author_of?(answer)
-          =link_to 'Delete file', file_path(file), method: :delete, remote: true
-    .answer-editing-errors
-    -if current_user&.author_of?(answer.question)
-      =link_to 'Mark as best', question_path(answer.question, question: { best_answer_id: answer.id }), class: 'best-link', method: :patch, remote: true
-    -if current_user&.author_of?(answer)
-      =link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
-      =form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
-        .field
-          =f.label :body, 'New answer'
-          =f.text_area :body
-        .field
-          =f.label :files
-          =f.file_field :files, multiple: true, direct_upload: true
-        #anwer-links
-          = f.fields_for :links do |l|
-            =render 'link_fields', :f => l
-          .link-link
-            =link_to_add_association 'add link', f, :links
-        =f.submit 'Save'
-      =link_to 'Delete answer', answer_path(answer), class: 'delete-answer-link', method: :delete, remote: true
+    .answer-items
+      p= answer.body
+      .gists
+        -answer.links.gists.each do |gist|
+          =javascript_include_tag gist.url+'.js'
+          =link_to gist.name, gist.url, class: 'gist-link', data: { gist_id: gist.url.split("/").last }
+      -if !(answer.links.not_gists).empty?
+        ul.user-links
+          -answer.links.not_gists.each do |link|
+            li
+              =link_to link.name, link.url
+              -if current_user&.author_of?(answer)
+                =link_to 'Delete link', link_path(link), method: :delete, remote: true
+      -else
+        p.no-links= 'No links'
+      -if answer.files.attached?
+        -answer.files.each do |file|
+          =link_to file.filename.to_s, url_for(file)
+          -if current_user&.author_of?(answer)
+            =link_to 'Delete file', file_path(file), method: :delete, remote: true
+      .answer-editing-errors
+      -if current_user&.author_of?(answer.question)
+        =link_to 'Mark as best', question_path(answer.question, question: { best_answer_id: answer.id }), class: 'best-link', method: :patch, remote: true
+      -if current_user&.author_of?(answer)
+        =link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+        =form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
+          .field
+            =f.label :body, 'New answer'
+            =f.text_area :body
+          .field
+            =f.label :files
+            =f.file_field :files, multiple: true, direct_upload: true
+          #anwer-links
+            = f.fields_for :links do |l|
+              =render 'link_fields', :f => l
+            .link-link
+              =link_to_add_association 'add link', f, :links
+          =f.submit 'Save'
+        =link_to 'Delete answer', answer_path(answer), class: 'delete-answer-link', method: :delete, remote: true
+    = render 'shared/rating', resource: answer
