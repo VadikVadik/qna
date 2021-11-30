@@ -1,5 +1,19 @@
 .question
-  =render @question
+  =render 'question_block', resourse: @question
+
+.question-comments-container
+  .question-comments-error
+  ul.question-comments
+    - @question.comments.each do |comment|
+      li= comment.body
+
+=form_with url: create_comment_question_path(@question),
+                                             class: 'new-comment',
+                                             data: { type: :json },
+                                             local: false do |f|
+  =f.label :body
+  =f.text_area :body
+  =f.submit 'Comment'
 
 h2= 'Answers'
 ol.answers

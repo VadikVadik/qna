@@ -32,7 +32,7 @@
           .field
             =f.label :files
             =f.file_field :files, multiple: true, direct_upload: true
-          #anwer-links
+          #answer-links
             = f.fields_for :links do |l|
               =render 'link_fields', :f => l
             .link-link
@@ -40,3 +40,12 @@
           =f.submit 'Save'
         =link_to 'Delete answer', answer_path(answer), class: 'delete-answer-link', method: :delete, remote: true
     = render 'shared/rating', resource: answer
+    .answer-comments-container
+      .answer-comments-error
+      ul.answer-comments
+        - answer.comments.each do |comment|
+          li= comment.body
+    =form_with url: create_comment_answer_path(answer), class: 'new-comment', local: false do |f|
+      =f.label :body
+      =f.text_area :body
+      =f.submit 'Comment'
