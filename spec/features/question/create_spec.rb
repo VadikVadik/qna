@@ -42,10 +42,10 @@ feature 'User can create question', %q{
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
     end
-end
+  end
 
   describe 'multiple sessions' do
-    scenario "question appears on another user's page" do
+    scenario "question appears on another user's page", js: true do
       Capybara.using_session('user') do
         sign_in(user)
         visit questions_path

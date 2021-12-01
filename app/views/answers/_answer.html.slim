@@ -45,7 +45,7 @@
       ul.answer-comments
         - answer.comments.each do |comment|
           li= comment.body
-    =form_with url: create_comment_answer_path(answer), class: 'new-comment', local: false do |f|
-      =f.label :body
-      =f.text_area :body
-      =f.submit 'Comment'
+      =form_with url: create_comment_answer_path(answer), class: 'new-comment', local: false do |f|
+        =f.label :body
+        =f.text_area :body
+        =f.submit 'Comment'
