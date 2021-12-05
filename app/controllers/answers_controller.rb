@@ -1,12 +1,16 @@
 class AnswersController < ApplicationController
   include Voted
+  include Commented
 
   before_action :authenticate_user!
   before_action :set_question, only: :create
   before_action :set_answer, only: [:update, :destroy]
 
+  after_action :publish_answer, only: :create
+
   def create
     @answer = @question.answers.create(answer_params.merge(author: current_user))
+    gon.answer = @answer
   end
 
   def update
@@ -24,6 +28,17 @@ class AnswersController < ApplicationController
   end
 
   private
+
+  def publish_answer
+    return if @answer.errors.any?
+    AnswersChannel.broadcast_to(
+      @question,
+      ApplicationController.render(
+        partial: 'answers/public_answer',
+        locals: { answer: @answer }
+      )  
+    )
+  end
 
   def set_answer
     @answer = Answer.with_attached_files.find(params[:id])

@@ -1,61 +1,17 @@
-h1= question.title
-.question-body
-  .question-main
-    p.question-text= question.body
-    .gists
-      -question.links.gists.each do |gist|
-        =javascript_include_tag gist.url+'.js'
-        =link_to gist.name, gist.url, class: 'gist-link', data: { gist_id: gist.url.split("/").last }
-    .question-extra
-      -if !(question.links.not_gists).empty?
-        ul.user-links
-          -question.links.not_gists.each do |link|
-            li
-              =link_to link.name, link.url
-              -if current_user&.author_of?(question)
-                =link_to 'Delete link', link_path(link), method: :delete, remote: true
-      -else
-        p.no-links= 'No links'
-      -if question.files.attached?
-        ul.question-files
-          -question.files.each do |file|
-            li
-              =link_to file.filename.to_s, url_for(file)
-              -if current_user&.author_of?(question)
-                =link_to 'Delete file', file_path(file), method: :delete, remote: true
-      -else
-        p.no-files= 'No files'
-  .question-actions
-    -if !question.award.nil?
-      .award-container
-        p.award-title= question.award.title
-        -if !question.award.image.url.nil?
-          .award-img-container
-            =image_tag question.award.image.url, class: 'award-image'
-    = render 'shared/rating', resource: question
-    -if current_user&.author_of?(question)
-      ul.question-links
-        li.question-links-item
-          =link_to 'Edit question', '#', class: 'edit-question-link question-links-link btn', data: { question_id: question.id }
-          =form_with model: question, class: 'hidden edit-question-form', html: { id: "edit-question-#{question.id}" }, local: false do |f|
-            .field
-              =f.label :body, 'New question:'
-              =f.text_area :body, rows: 5
-            .field
-              =f.label :files, class: 'files-label'
-              =f.file_field :files, multiple: true, direct_upload: true
-            #links
-              = f.fields_for :links do |l|
-                =render 'link_fields', :f => l
-              .link-link
-                =link_to_add_association 'add link', f, :links
-            =f.submit 'Save', class: 'btn'
-        li.question-links-item
-          =link_to 'Delete question', question_path(question), class: 'btn question-links-link', method: :delete
-
-.question-editing-errors
-
--if !question.best_answer.nil?
-  .best-answer
-    h2.bets-answer-title = 'Best answer:'
-    p.bets-answer-text = question.best_answer.body
+li.questions-list-item
+  = link_to question.title, question_path(question), class: 'question-link'
+  .question-description
+    -if question.answers.count > 0
+      span class='question-property answers-yes'
+        | Answers: #{question.answers.count}
+      span class='question-property last-answer-date'
+        | Last answer: #{question.answers.last.created_at.to_datetime.to_formatted_s(:long_ordinal)}
+      span.question-property
+        | Best answer:
+        -if question.best_answer
+          span.tagged= ' tagged'
+        -else
+          span.not-tagged= ' not tagged'
+    -else
+      span class='question-property answers-no'
+        | No answers

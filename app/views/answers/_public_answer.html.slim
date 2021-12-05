@@ -1,0 +1,37 @@
+li [id = "answer-#{answer.id}"]
+  .answer-items
+    p= answer.body
+    .gists
+      -answer.links.gists.each do |gist|
+        =javascript_include_tag gist.url+'.js'
+        =link_to gist.name, gist.url, class: 'gist-link', data: { gist_id: gist.url.split("/").last }
+    -if !(answer.links.not_gists).empty?
+      ul.user-links
+        -answer.links.not_gists.each do |link|
+          li
+            =link_to link.name, link.url
+    -else
+      p.no-links= 'No links'
+    -if answer.files.attached?
+      -answer.files.each do |file|
+        =link_to file.filename.to_s, url_for(file)
+  div class="answer-rating-wrapper"
+    p class="answer-rating-error"
+    p class="answer-rating"
+      | Rating: #{answer.rating}
+    =link_to 'Vote for', vote_answer_path(answer, vote: { status: 1 }),
+                         class: 'vote-link vote-for-link',
+                         method: :post,
+                         remote: true
+    =link_to 'Vote against', vote_answer_path(answer, vote: { status: -1 }),
+                             class: 'vote-link vote-against-link',
+                             method: :post,
+                             remote: true
+    =link_to 'Change my vote', unvote_answer_path(answer),
+                               class: 'vote-link change-vote-link',
+                               method: :delete,
+                               remote: true
+  =form_with url: create_comment_answer_path(answer), local: false do |f|
+    =f.label :body
+    =f.text_area :body
+    =f.submit 'Comment'

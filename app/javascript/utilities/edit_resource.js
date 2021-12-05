@@ -66,4 +66,26 @@ $(document).on('turbolinks:load', function () {
         window.scrollTo(top);
       }
     })
+
+// ajax comments errors
+  $('form.new-comment').on('ajax:error', function (e) {
+    if(typeof e.detail[0] == "object") {
+      info = e.detail[0];
+      error = info.errors;
+      commentable = info.commentable_type.toLowerCase();
+      commentable_id = info.commentable_id;
+    } else {
+      error = e.detail[0];
+      commentable = '';
+    }
+
+    if(commentable == 'question') {
+      $('.question-comments-error').html('').append('<p>' + error + '</p>');
+    } else if(commentable == 'answer') {
+      $('#answer-' + commentable_id + ' .answer-comments-error').html('').append('<p>' + error + '</p>');
+    } else {
+      $('.unauth-voting-alert').html('').append('<p>' + error + '</p>');
+      window.scrollTo(top);
+    }
+  })
 });
