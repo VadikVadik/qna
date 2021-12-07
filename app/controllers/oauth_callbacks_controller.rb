@@ -3,10 +3,6 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
     sign_in_with('Github')
   end
 
-  def vkontakte
-    render json: request.env['omniauth.auth']
-  end
-
   def google_oauth2
     sign_in_with('Google')
   end
