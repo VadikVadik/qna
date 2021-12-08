@@ -36,6 +36,8 @@ gem 'gon'
 gem 'skim'
 gem 'omniauth'
 gem 'omniauth-github'
+gem 'omniauth-vkontakte'
+gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
 
 group :development, :test do
