@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
 
-  def show    
+  authorize_resource
+
+  def show
   end
 end

@@ -11,19 +11,19 @@
           -answer.links.not_gists.each do |link|
             li
               =link_to link.name, link.url
-              -if current_user&.author_of?(answer)
+              -if can?(:destroy, answer)
                 =link_to 'Delete link', link_path(link), method: :delete, remote: true
       -else
         p.no-links= 'No links'
       -if answer.files.attached?
         -answer.files.each do |file|
           =link_to file.filename.to_s, url_for(file)
-          -if current_user&.author_of?(answer)
+          -if can?(:update, answer)
             =link_to 'Delete file', file_path(file), method: :delete, remote: true
       .answer-editing-errors
-      -if current_user&.author_of?(answer.question)
+      -if can?(:update, answer.question)
         =link_to 'Mark as best', question_path(answer.question, question: { best_answer_id: answer.id }), class: 'best-link', method: :patch, remote: true
-      -if current_user&.author_of?(answer)
+      -if can?(:update, answer)
         =link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
         =form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
           .field

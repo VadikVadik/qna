@@ -8,6 +8,8 @@ class AnswersController < ApplicationController
 
   after_action :publish_answer, only: :create
 
+  authorize_resource
+
   def create
     @answer = @question.answers.create(answer_params.merge(author: current_user))
     gon.answer = @answer
@@ -36,7 +38,7 @@ class AnswersController < ApplicationController
       ApplicationController.render(
         partial: 'answers/public_answer',
         locals: { answer: @answer }
-      )  
+      )
     )
   end
 
