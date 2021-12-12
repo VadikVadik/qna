@@ -36,8 +36,6 @@ RSpec.describe Ability, type: :model do
     it { should be_able_to :create, Answer }
     it { should be_able_to :create_comment, Question }
     it { should be_able_to :create_comment, Answer }
-    it { should be_able_to :vote, Question }
-    it { should be_able_to :vote, Answer }
     it { should be_able_to :unvote, Question }
     it { should be_able_to :unvote, Answer }
 
@@ -54,5 +52,10 @@ RSpec.describe Ability, type: :model do
     it { should_not be_able_to :destroy, other_answer }
     it { should be_able_to :destroy, comment }
     it { should_not be_able_to :destroy, other_comment }
+
+    it { should be_able_to :vote, other_question }
+    it { should_not be_able_to :vote, question }
+    it { should be_able_to :vote, other_answer }
+    it { should_not be_able_to :vote, answer }
   end
 end

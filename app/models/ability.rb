@@ -30,6 +30,7 @@ class Ability
     can :destroy, [Question, Answer, Comment], author_id: user.id
     can :create_comment, [Question, Answer]
     can :vote, [Question, Answer]
+    cannot :vote, [Question, Answer], author_id: user.id
     can :unvote, [Question, Answer], user_id: user.id
   end
 end
