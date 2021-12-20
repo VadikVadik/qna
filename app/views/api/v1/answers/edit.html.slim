@@ -1,0 +1,10 @@
+=form_with model: @answer, access_token: @token, local: false do |f|
+  .field
+    =f.label :body, 'New answer'
+    =f.text_area :body
+  #answer-links
+    = f.fields_for :links do |l|
+      =render 'link_fields', :f => l
+    .link-link
+      =link_to_add_association 'add link', f, :links
+  =f.submit 'Save'

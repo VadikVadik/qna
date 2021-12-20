@@ -12,7 +12,6 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.create(answer_params.merge(author: current_user))
-    gon.answer = @answer
   end
 
   def update
