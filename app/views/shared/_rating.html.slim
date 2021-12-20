@@ -2,7 +2,7 @@ div class="#{resource.class.to_s.downcase}-rating-wrapper"
   p class="#{resource.class.to_s.downcase}-rating-error"
   p class="#{resource.class.to_s.downcase}-rating"
     | Rating: #{resource.rating}
-  -if !current_user&.author_of?(resource)
+  -if cannot?(:update, resource)
     =link_to 'Vote for', polymorphic_path([:vote, resource], vote: { status: 1 }),
                          class: 'vote-link vote-for-link',
                          method: :post,

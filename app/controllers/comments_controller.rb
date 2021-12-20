@@ -1,6 +1,8 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!
 
+  authorize_resource
+
   def destroy
     @comment = Comment.find(params[:id])
 
