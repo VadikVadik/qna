@@ -1,7 +1,7 @@
 class Api::V1::QuestionsController < Api::V1::BaseController
   before_action :set_question, only: [:show, :edit, :update, :destroy]
-  before_action :set_token, only: [:new, :edit]
-  skip_forgery_protection
+
+  authorize_resource
 
   def index
     @questions = Question.all
@@ -12,32 +12,27 @@ class Api::V1::QuestionsController < Api::V1::BaseController
     render json: @question
   end
 
-  def new
-    @question = current_resource_owner.questions.new
-  end
-
-  def edit
-  end
-
   def create
     @question = current_resource_owner.questions.new(question_params)
     if @question.save
       render json: @question
     else
-      render :new
+      render json: {errors: @question.errors.full_messages}
     end
   end
 
   def update
-    @question.update(question_params) if current_resource_owner.author_of?(@question)
+    @question.update(question_params) if can?(:update, @question)
 
     if !question_params[:best_answer_id].nil? && !@question.award.nil?
       @question.award.update(owner: @question.best_answer.author)
     end
+
+    render json: @question
   end
 
   def destroy
-    if current_resource_owner.author_of?(@question)
+    if can?(:destroy, @question)
       @question.destroy
       render json: { message: "Question was successfully deleted" }
     else
@@ -49,10 +44,6 @@ class Api::V1::QuestionsController < Api::V1::BaseController
 
   def set_question
     @question = Question.with_attached_files.find(params[:id])
-  end
-
-  def set_token
-    @token = doorkeeper_token.token
   end
 
   def question_params

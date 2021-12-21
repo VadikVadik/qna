@@ -1,8 +1,8 @@
 class Api::V1::AnswersController < Api::V1::BaseController
   before_action :set_question, only: [:new, :create]
   before_action :set_answer, only: [:edit, :update, :destroy]
-  before_action :set_token, only: [:new, :edit]
-  skip_forgery_protection
+
+  authorize_resource
 
   def index
     @question = Question.find(params[:question_id])
@@ -14,28 +14,27 @@ class Api::V1::AnswersController < Api::V1::BaseController
     render json: @answer
   end
 
-  def new
-    @answer = @question.answers.new(author: current_resource_owner)
-  end
-
-  def edit
-  end
-
   def create
-    @answer = @question.answers.create(answer_params.merge(author: current_resource_owner))
-    render json: @answer
+    @answer = @question.answers.new(answer_params.merge(author: current_resource_owner))
+    if @answer.save
+      render json: @answer
+    else
+      render json: {errors: @answer.errors.full_messages}
+    end
   end
 
   def update
-    @answer.update(answer_params) if current_resource_owner.author_of?(@answer)
+    @answer.update(answer_params) if can?(:update, @answer)
+    render json: @answer
   end
 
   def destroy
-    @question = @answer.question
-    @answer_id = @answer.id
-
-    @question.update(best_answer_id: nil) if @answer.best?
-    @answer.destroy if current_resource_owner.author_of?(@answer)
+    if can?(:destroy, @answer)
+      @answer.destroy
+      render json: { message: "Answer was successfully deleted" }
+    else
+      render json: { message: "You can't delete this answer" }
+    end
   end
 
   private
@@ -46,10 +45,6 @@ class Api::V1::AnswersController < Api::V1::BaseController
 
   def set_question
     @question = Question.find(params[:question_id])
-  end
-
-  def set_token
-    @token = doorkeeper_token.token
   end
 
   def answer_params
