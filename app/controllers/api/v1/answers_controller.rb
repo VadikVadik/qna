@@ -24,17 +24,13 @@ class Api::V1::AnswersController < Api::V1::BaseController
   end
 
   def update
-    @answer.update(answer_params) if can?(:update, @answer)
+    @answer.update(answer_params)
     render json: @answer
   end
 
   def destroy
-    if can?(:destroy, @answer)
-      @answer.destroy
-      render json: { message: "Answer was successfully deleted" }
-    else
-      render json: { message: "You can't delete this answer" }
-    end
+    @answer.destroy
+    render json: { message: "Answer was successfully deleted" }
   end
 
   private

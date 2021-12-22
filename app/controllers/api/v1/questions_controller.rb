@@ -22,7 +22,7 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   end
 
   def update
-    @question.update(question_params) if can?(:update, @question)
+    @question.update(question_params)
 
     if !question_params[:best_answer_id].nil? && !@question.award.nil?
       @question.award.update(owner: @question.best_answer.author)
@@ -32,12 +32,8 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   end
 
   def destroy
-    if can?(:destroy, @question)
-      @question.destroy
-      render json: { message: "Question was successfully deleted" }
-    else
-      render json: { message: "You can't delete this question" }
-    end
+    @question.destroy
+    render json: { message: "Question was successfully deleted" }
   end
 
   private
