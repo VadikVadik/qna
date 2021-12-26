@@ -12,7 +12,6 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.create(answer_params.merge(author: current_user))
-    gon.answer = @answer
   end
 
   def update
@@ -25,7 +24,6 @@ class AnswersController < ApplicationController
     @question = @answer.question
     @answer_id = @answer.id
 
-    @question.update(best_answer_id: nil) if @answer.best?
     @answer.destroy if current_user.author_of?(@answer)
   end
 
