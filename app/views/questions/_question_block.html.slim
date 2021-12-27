@@ -33,8 +33,8 @@ h1= resourse.title
           .award-img-container
             =image_tag resourse.award.image.url, class: 'award-image'
     = render 'shared/rating', resource: resourse
-    -if can?(:update, resourse)
-      ul.question-links
+    ul.question-links
+      -if can?(:update, resourse)
         li.question-links-item
           =link_to 'Edit question', '#', class: 'edit-question-link question-links-link btn', data: { question_id: resourse.id }
           =form_with model: resourse, class: 'hidden edit-question-form', html: { id: "edit-question-#{resourse.id}" }, local: false do |f|
@@ -52,6 +52,12 @@ h1= resourse.title
             =f.submit 'Save', class: 'btn'
         li.question-links-item
           =link_to 'Delete question', question_path(resourse), class: 'btn question-links-link', method: :delete
+      -if can?(:subscribe, resourse) && !current_user.subscriptions.include?(resourse)
+        li.question-links-item
+          =link_to 'Subscribe to question', subscribe_question_path(resourse), class: 'btn question-links-link', method: :post
+      -if can?(:unsubscribe, resourse) && current_user.subscriptions.include?(resourse)
+        li.question-links-item
+          =link_to 'Unsubscribe from question', unsubscribe_question_path(resourse), class: 'btn question-links-link', method: :delete
 
 .question-editing-errors
 

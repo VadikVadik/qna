@@ -12,6 +12,7 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.create(answer_params.merge(author: current_user))
+    AnswersMailer.created_answer(@answer).deliver_later
   end
 
   def update

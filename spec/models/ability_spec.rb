@@ -28,6 +28,7 @@ RSpec.describe Ability, type: :model do
     let(:other_answer) { create(:answer, question: other_question, author: other) }
     let(:comment) { create(:comment, commentable: question, author: user) }
     let(:other_comment) { create(:comment, commentable: other_question, author: other) }
+    before { user.subscriptions.push(other_question) }
 
     it { should_not be_able_to :manage, :all }
     it { should be_able_to :read, :all }
@@ -57,5 +58,9 @@ RSpec.describe Ability, type: :model do
     it { should_not be_able_to :vote, question }
     it { should be_able_to :vote, other_answer }
     it { should_not be_able_to :vote, answer }
+
+    it { should be_able_to :subscribe, question }
+    it { should be_able_to :unsubscribe, other_question }
+    it { should_not be_able_to :unsubscribe, question }
   end
 end

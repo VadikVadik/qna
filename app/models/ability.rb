@@ -32,5 +32,9 @@ class Ability
     can :vote, [Question, Answer]
     cannot :vote, [Question, Answer], author_id: user.id
     can :unvote, [Question, Answer], user_id: user.id
+    can :subscribe, Question
+    can :unsubscribe, Question do |question|
+      question.subscribers.include?(user)
+    end
   end
 end

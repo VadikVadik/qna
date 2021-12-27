@@ -3,7 +3,7 @@ class QuestionsController < ApplicationController
   include Commented
 
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_question, only: [:show, :edit, :update, :destroy]
+  before_action :set_question, only: [:show, :edit, :update, :destroy, :subscribe, :unsubscribe]
 
   after_action :publish_question, only: :create
 
@@ -31,6 +31,7 @@ class QuestionsController < ApplicationController
   def create
     @question = current_user.questions.new(question_params)
     if @question.save
+      @question.subscribers.push(current_user)
       redirect_to @question, notice: 'Your question successfully created.'
     else
       render :new
@@ -52,6 +53,14 @@ class QuestionsController < ApplicationController
     else
       render :show, notice: "You can't delete this question"
     end
+  end
+
+  def subscribe
+    @question.subscribers.push(current_user)
+  end
+
+  def unsubscribe
+    QuestionSubscription.where(question: @question, user: current_user).first.destroy
   end
 
   private
