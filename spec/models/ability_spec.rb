@@ -28,13 +28,15 @@ RSpec.describe Ability, type: :model do
     let(:other_answer) { create(:answer, question: other_question, author: other) }
     let(:comment) { create(:comment, commentable: question, author: user) }
     let(:other_comment) { create(:comment, commentable: other_question, author: other) }
-    before { user.subscriptions.push(other_question) }
+    let(:subscription) { create(:question_subscription, user: user, question: question) }
+    let(:other_subscription) { create(:question_subscription, user: other, question: question) }
 
     it { should_not be_able_to :manage, :all }
     it { should be_able_to :read, :all }
 
     it { should be_able_to :create, Question }
     it { should be_able_to :create, Answer }
+    it { should be_able_to :create, QuestionSubscription }
     it { should be_able_to :create_comment, Question }
     it { should be_able_to :create_comment, Answer }
     it { should be_able_to :unvote, Question }
@@ -53,14 +55,12 @@ RSpec.describe Ability, type: :model do
     it { should_not be_able_to :destroy, other_answer }
     it { should be_able_to :destroy, comment }
     it { should_not be_able_to :destroy, other_comment }
+    it { should be_able_to :destroy, subscription }
+    it { should_not be_able_to :destroy, other_subscription }
 
     it { should be_able_to :vote, other_question }
     it { should_not be_able_to :vote, question }
     it { should be_able_to :vote, other_answer }
     it { should_not be_able_to :vote, answer }
-
-    it { should be_able_to :subscribe, question }
-    it { should be_able_to :unsubscribe, other_question }
-    it { should_not be_able_to :unsubscribe, question }
   end
 end

@@ -24,10 +24,7 @@ Rails.application.routes.draw do
 
   resources :questions, concerns: [:votable, :commentable] do
     resources :answers, shallow: true, except: :index, concerns: [:votable, :commentable]
-    member do
-      post :subscribe
-      delete :unsubscribe
-    end
+    resources :question_subscriptions, only: [:create, :destroy], shallow: true
   end
 
   resources :files, only: :destroy

@@ -14,10 +14,11 @@ class QuestionsController < ApplicationController
   end
 
   def show
-      @answer = user_signed_in? ? current_user.answers.new() : Answer.new
-      @answer.links.build
-      @best_answer = @question.best_answer
-		  @other_answers = @question.answers.where.not(id: @question.best_answer_id)
+    @answer = user_signed_in? ? current_user.answers.new() : Answer.new
+    @answer.links.build
+    @best_answer = @question.best_answer
+		@other_answers = @question.answers.where.not(id: @question.best_answer_id)
+    @subscription = QuestionSubscription.find_by(user: current_user, question: @question)
   end
 
   def new
@@ -39,7 +40,7 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    @question.update(question_params) if current_user.author_of?(@question)
+    @question.update(question_params)
 
     if !question_params[:best_answer_id].nil? && !@question.award.nil?
       @question.award.update(owner: @question.best_answer.author)
@@ -47,20 +48,8 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    if current_user.author_of?(@question)
-      @question.destroy
-      redirect_to questions_path, notice: 'Question was successfully deleted'
-    else
-      render :show, notice: "You can't delete this question"
-    end
-  end
-
-  def subscribe
-    @question.subscribers.push(current_user)
-  end
-
-  def unsubscribe
-    QuestionSubscription.where(question: @question, user: current_user).first.destroy
+    @question.destroy
+    redirect_to questions_path, notice: 'Question was successfully deleted'
   end
 
   private

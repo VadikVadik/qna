@@ -12,20 +12,17 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.create(answer_params.merge(author: current_user))
-    AnswersMailer.created_answer(@answer).deliver_later
   end
 
   def update
     @question = @answer.question
-
-    @answer.update(answer_params) if current_user.author_of?(@answer)
+    @answer.update(answer_params)
   end
 
   def destroy
     @question = @answer.question
     @answer_id = @answer.id
-
-    @answer.destroy if current_user.author_of?(@answer)
+    @answer.destroy
   end
 
   private

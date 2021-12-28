@@ -52,12 +52,12 @@ h1= resourse.title
             =f.submit 'Save', class: 'btn'
         li.question-links-item
           =link_to 'Delete question', question_path(resourse), class: 'btn question-links-link', method: :delete
-      -if can?(:subscribe, resourse) && !current_user.subscriptions.include?(resourse)
+      -if can?(:create, QuestionSubscription) && !current_user.subscriptions.include?(resourse)
         li.question-links-item
-          =link_to 'Subscribe to question', subscribe_question_path(resourse), class: 'btn question-links-link', method: :post
-      -if can?(:unsubscribe, resourse) && current_user.subscriptions.include?(resourse)
+          =link_to 'Subscribe to question', question_question_subscriptions_path(resourse), class: 'btn question-links-link', method: :post
+      -if can?(:destroy, subscription) && subscription
         li.question-links-item
-          =link_to 'Unsubscribe from question', unsubscribe_question_path(resourse), class: 'btn question-links-link', method: :delete
+          =link_to 'Unsubscribe from question', question_subscription_path(subscription), class: 'btn question-links-link', method: :delete
 
 .question-editing-errors
 
