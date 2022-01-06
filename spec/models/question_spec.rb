@@ -4,6 +4,8 @@ RSpec.describe Question, type: :model do
   it { should belong_to(:author).class_name('User') }
   it { should belong_to(:best_answer).class_name('Answer').optional(:true) }
   it { should have_many(:answers).dependent(:destroy) }
+  it { should have_many(:question_subscriptions).dependent(:destroy) }
+  it { should have_many(:subscribers).through(:question_subscriptions).source(:user) }
   it { should have_many(:links).dependent(:destroy) }
   it { should have_many(:votes).dependent(:destroy) }
   it { should have_one(:award).dependent(:destroy) }

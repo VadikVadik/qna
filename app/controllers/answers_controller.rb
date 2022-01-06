@@ -16,15 +16,13 @@ class AnswersController < ApplicationController
 
   def update
     @question = @answer.question
-
-    @answer.update(answer_params) if current_user.author_of?(@answer)
+    @answer.update(answer_params)
   end
 
   def destroy
     @question = @answer.question
     @answer_id = @answer.id
-
-    @answer.destroy if current_user.author_of?(@answer)
+    @answer.destroy
   end
 
   private

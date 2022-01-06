@@ -9,6 +9,8 @@ class User < ApplicationRecord
   has_many :answers, foreign_key: 'author_id', dependent: :destroy
   has_many :awards, foreign_key: 'owner_id'
   has_many :authorizations, dependent: :destroy
+  has_many :question_subscriptions, dependent: :destroy
+  has_many :subscriptions, through: :question_subscriptions, source: :question
 
   def self.find_for_oauth(auth)
     FindForOauthService.new(auth).call

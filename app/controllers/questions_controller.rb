@@ -3,7 +3,7 @@ class QuestionsController < ApplicationController
   include Commented
 
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_question, only: [:show, :edit, :update, :destroy]
+  before_action :set_question, only: [:show, :edit, :update, :destroy, :subscribe, :unsubscribe]
 
   after_action :publish_question, only: :create
 
@@ -14,10 +14,11 @@ class QuestionsController < ApplicationController
   end
 
   def show
-      @answer = user_signed_in? ? current_user.answers.new() : Answer.new
-      @answer.links.build
-      @best_answer = @question.best_answer
-		  @other_answers = @question.answers.where.not(id: @question.best_answer_id)
+    @answer = user_signed_in? ? current_user.answers.new() : Answer.new
+    @answer.links.build
+    @best_answer = @question.best_answer
+		@other_answers = @question.answers.where.not(id: @question.best_answer_id)
+    @subscription = QuestionSubscription.find_by(user: current_user, question: @question)
   end
 
   def new
@@ -31,6 +32,7 @@ class QuestionsController < ApplicationController
   def create
     @question = current_user.questions.new(question_params)
     if @question.save
+      @question.subscribers.push(current_user)
       redirect_to @question, notice: 'Your question successfully created.'
     else
       render :new
@@ -38,7 +40,7 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    @question.update(question_params) if current_user.author_of?(@question)
+    @question.update(question_params)
 
     if !question_params[:best_answer_id].nil? && !@question.award.nil?
       @question.award.update(owner: @question.best_answer.author)
@@ -46,12 +48,8 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    if current_user.author_of?(@question)
-      @question.destroy
-      redirect_to questions_path, notice: 'Question was successfully deleted'
-    else
-      render :show, notice: "You can't delete this question"
-    end
+    @question.destroy
+    redirect_to questions_path, notice: 'Question was successfully deleted'
   end
 
   private

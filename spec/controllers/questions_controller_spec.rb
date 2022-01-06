@@ -164,4 +164,36 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
+
+  describe 'POST #subscribe' do
+    before { login(user) }
+
+    context 'with valid attributes' do
+      it 'add new subscriber to question' do
+        expect { post :subscribe, params: { id: question } }.to change(QuestionSubscription, :count).by(1)
+      end
+    end
+  end
+
+  describe 'DELETE #unsubscribe' do
+    let!(:author) { create(:user) }
+    let!(:question) { create(:question, author: author) }
+    let!(:another_user) { create(:user) }
+    let!(:another_question) { create(:question, author: another_user) }
+
+    before do
+      login(user)
+      user.subscriptions.push(question)
+    end
+
+    context 'with valid attributes' do
+      it 'delete subscriber from question' do
+        expect { delete :unsubscribe, params: { id: question } }.to change(user.subscriptions, :count).by(-1)
+      end
+
+      it 'does not change the number of subscribers if the user is not subscribed to question' do
+        expect { delete :unsubscribe, params: { id: another_question } }.to_not change(user.subscriptions, :count)
+      end
+    end
+  end
 end
