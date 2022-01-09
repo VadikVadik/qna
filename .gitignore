@@ -37,3 +37,5 @@ yarn-debug.log*
 /config/database.yml
 Ruby Slim.YAML-tmLanguage
 award.jpg
+config/*.sphinx.conf
+db/sphinx

@@ -1,0 +1,17 @@
+.search-form
+  = form_with url: search_url, local:true do |f|
+    .field
+      = f.label :query, 'Find'
+      = f.text_field :query
+    .field
+      = f.radio_button :search_params, 'all'
+      = f.label :search_params_all, 'All'
+      = f.radio_button :search_params, 'question'
+      = f.label :search_params_question, 'Question'
+      = f.radio_button :search_params, 'answer'
+      = f.label :search_params_answer, 'Answer'
+      = f.radio_button :search_params, 'comment'
+      = f.label :search_params_comment, 'Comment'
+      = f.radio_button :search_params, 'user'
+      = f.label :search_params_user, 'User'
+    = f.submit 'Search'
