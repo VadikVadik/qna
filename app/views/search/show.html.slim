@@ -1,0 +1,13 @@
+.results
+  ul
+    - @questions.each do |question|
+      li= link_to question.title, question_path(question)
+    - @answers.each do |answer|
+      li= link_to answer.body, question_path(answer.question)
+    - @comments.each do |comment|
+      - if comment.commentable.instance_of?(Question)
+        li= link_to comment.body, question_path(comment.commentable)
+      - elsif comment.commentable.instance_of?(Answer)
+        li= link_to comment.body, question_path(comment.commentable.question)
+    - @users.each do |user|
+      li= link_to user.email, user_path(user)

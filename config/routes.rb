@@ -27,6 +27,9 @@ Rails.application.routes.draw do
     resources :question_subscriptions, only: [:create, :destroy], shallow: true
   end
 
+post 'search', action: :create, controller: 'search'
+get 'search', action: :show, controller: 'search'
+
   resources :files, only: :destroy
   resources :links, only: :destroy
   resources :comments, only: :destroy
