@@ -1,39 +1,40 @@
-.question
-  =render 'question_block', resourse: @question, subscription: @subscription
+-cache @question do
+  .question
+    =render 'question_block', resourse: @question, subscription: @subscription
 
-.question-comments-container
-  .question-comments-error
-  ul.question-comments
-    - @question.comments.each do |comment|
-      li= comment.body
+  .question-comments-container
+    .question-comments-error
+    ul.question-comments
+      - @question.comments.each do |comment|
+        li= comment.body
 
-  =form_with url: create_comment_question_path(@question),
-                                               class: 'new-comment',
-                                               data: { type: :json },
-                                               local: false do |f|
-    =f.label :body
-    =f.text_area :body
-    =f.submit 'Comment'
+    =form_with url: create_comment_question_path(@question),
+                                                 class: 'new-comment',
+                                                 data: { type: :json },
+                                                 local: false do |f|
+      =f.label :body
+      =f.text_area :body
+      =f.submit 'Comment'
 
-h2= 'Answers'
-ol.answers
-  -if !@question.answers.empty?
-    =render @question.answers
-  -else
-    p= 'No answers yet'
+  h2= 'Answers'
+  ol.answers
+    -if !@question.answers.empty?
+      =render @question.answers
+    -else
+      p= 'No answers yet'
 
-.answer-errors
+  .answer-errors
 
-=form_with model: [@question, @answer], class: 'new-answer', local: false, data: { type: :json } do |f|
-  .field
-    =f.label :body, 'Your answer'
-    =f.text_area :body
-  .field
-    =f.label :files
-    =f.file_field :files, multiple: true, direct_upload: true
-  #links
-    = f.fields_for :links do |l|
-      =render 'link_fields', :f => l
-    .link-link
-      =link_to_add_association 'add link', f, :links
-  =f.submit 'Create'
+  =form_with model: [@question, @answer], class: 'new-answer', local: false, data: { type: :json } do |f|
+    .field
+      =f.label :body, 'Your answer'
+      =f.text_area :body
+    .field
+      =f.label :files
+      =f.file_field :files, multiple: true, direct_upload: true
+    #links
+      = f.fields_for :links do |l|
+        =render 'link_fields', :f => l
+      .link-link
+        =link_to_add_association 'add link', f, :links
+    =f.submit 'Create'
